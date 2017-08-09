@@ -5,7 +5,7 @@ const app = express();
 
 //create a route handler
 app.get('/', (req, res) => {
-  res.send({ hi: 'there' });
+  res.send({ hi: 'Srivatsa youre doing a fullstack project' });
 });
 
 //Dynamically figure out what port to listen to
