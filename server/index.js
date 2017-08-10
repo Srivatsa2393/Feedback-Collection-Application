@@ -21,6 +21,15 @@ passport.use(
   )
 );
 
+//add a new route handler '/auth/google'
+//here in the second argument we'll tell express to involve passport
+app.get(
+  '/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile', 'email']
+  })
+);
+
 //Dynamically figure out what port to listen to
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
