@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const keys = require('./config/keys');
 //we are not assigning anything so we can just do require
 require('./services/passport');
+require('./models/User');
 
 //instruct mongoose to connect to mongo db
 mongoose.connect(keys.mongoURI);
