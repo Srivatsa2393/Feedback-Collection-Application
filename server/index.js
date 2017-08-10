@@ -30,6 +30,9 @@ app.get(
   })
 );
 
+//add a second route handler '/auth/google/callback'
+app.get('/auth/google/callback', passport.authenticate('google'));
+
 //Dynamically figure out what port to listen to
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
