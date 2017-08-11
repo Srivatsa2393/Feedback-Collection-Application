@@ -22,7 +22,7 @@ passport.use(
           done(null, existingUser);
         } else {
           //we dont have a user record with this id, make a new record
-          //this creates a new model instance and then save the instance and then we cretae a second instance
+          //this creates a new model instance and then save the instance and then we cretae a second instance and we used promises inside the callback
           new User({ googleId: profile.id })
             .save()
             .then(user => done(null, user));
