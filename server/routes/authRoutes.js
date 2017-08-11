@@ -12,4 +12,9 @@ module.exports = app => {
 
   //add a second route handler '/auth/google/callback'
   app.get('/auth/google/callback', passport.authenticate('google'));
+
+  //third route handler /api/currentUser to get access to the user
+  app.get('/api/current_user', (req, res) => {
+    res.send(req.user);
+  });
 };
