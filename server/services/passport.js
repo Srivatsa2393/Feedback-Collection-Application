@@ -7,8 +7,15 @@ const mongoose = require('mongoose');
 const User = mongoose.model('users');
 
 //call serialize
-passport.serialzeUser((user, done) => {
+passport.serializeUser((user, done) => {
   done(null, user.id);
+});
+
+//call deserialize
+passport.deserializeUser((id, done) => {
+  User.findById(id).then(user => {
+    done(null, user);
+  });
 });
 
 //console.developers.google.com
