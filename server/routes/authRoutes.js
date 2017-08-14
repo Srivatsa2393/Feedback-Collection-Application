@@ -11,7 +11,13 @@ module.exports = app => {
   );
 
   //add a second route handler '/auth/google/callback'
-  app.get('/auth/google/callback', passport.authenticate('google'));
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      res.redirect('/surveys');
+    }
+  );
 
   //whenever a user makes a request to '/api/logout' he will be logout
   app.get('/api/logout', (req, res) => {
