@@ -22,7 +22,9 @@ module.exports = app => {
   //whenever a user makes a request to '/api/logout' he will be logout
   app.get('/api/logout', (req, res) => {
     req.logout();
-    res.send(req.user);
+    //res.send(req.user);
+    //redirect to route route
+    res.redirect('/');
   });
 
   //third route handler /api/currentUser to get access to the user
