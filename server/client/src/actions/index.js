@@ -14,3 +14,10 @@ export const fetchUser = () => async dispatch => {
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
+
+//creating a new action creator for handling the token that comes from stripe
+export const handleToken = token => async dispatch => {
+  const res = await axios.post('/api/stripe', token);
+
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
