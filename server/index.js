@@ -27,6 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 //Dynamically figure out what port to listen to
 const PORT = process.env.PORT || 5000;
