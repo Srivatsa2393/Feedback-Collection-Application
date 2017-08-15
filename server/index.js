@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 require('./models/User');
 //we are not assigning anything so we can just do require
@@ -14,6 +15,8 @@ mongoose.connect(keys.mongoURI);
 //create our first express app
 const app = express();
 
+//express middlewares
+app.use(bodyParser.json());
 //tell express to make use of cookie
 app.use(
   cookieSession({
