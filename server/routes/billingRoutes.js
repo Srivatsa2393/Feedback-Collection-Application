@@ -13,6 +13,11 @@ module.exports = app => {
       source: req.body.id
     });
 
-    console.log(charge);
+    //console.log(charge);
+    //respond to request with newly updated user model
+    req.user.credits += 5;
+    const user = await req.user.save();
+
+    res.send(user);
   });
 };
