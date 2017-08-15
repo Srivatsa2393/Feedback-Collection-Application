@@ -6,6 +6,11 @@ module.exports = app => {
     //console.log(req.body);
     //somehow reach to the stripe api and finaize the bill/charge
     //after finalizing the charge we update the users number of credits
+    //check whether user is logged in
+    if (!req.user) {
+      return res.status(401).send({ error: 'You must log in!' });
+    }
+
     const charge = await stripe.charges.create({
       amount: 500,
       currency: 'usd',
