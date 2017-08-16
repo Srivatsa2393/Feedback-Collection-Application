@@ -9,11 +9,31 @@ class Mailer extends helper.Mail {
   constructor({ subject, recipients }, content) {
     super();
 
-    //sendgrid stuff
+    //sendgrid stuff golden properties
     this.from_email = new helper.Email('no-reply@emaily.com');
     this.subject = subject;
     this.body = new helper.Content('text/html', content);
     this.recipients = this.formatAddresses(recipients);
+
+    //body must get added as the actual content to the mailer
+    this.addContent(this.body);
+    //enable the click tracking of email
+    this.addClickTracking();
+    this.addRecipients();
+  }
+
+  formatAddresses(recipients) {
+    return recipients.map(({ email }) => {
+      return new helper.Email(email);
+    });
+  }
+
+  addClickTracking() {
+    const trackingSettings = new helper.TrackingSettings();
+    const clickTracking = new helper.ClickTracking(true, true);
+
+    trackingSettings.setClickTracking(clickTracking);
+    this.addTrackingSettings(trackingSettings);
   }
 }
 
