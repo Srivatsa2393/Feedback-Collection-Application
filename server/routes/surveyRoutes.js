@@ -7,6 +7,10 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
+  app.get('/api/surveys/thanks', (req, res) => {
+    res.send('Thanks for your feedback');
+  });
+
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
     //we want to make sure user is logged in
     //if you are logged in we must make sure that you have enough credits to send a survey
