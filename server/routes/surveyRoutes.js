@@ -7,7 +7,7 @@ const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.post('/api/surveys', requireLogin, requireCredits, (req, res) => {
+  app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
     //we want to make sure user is logged in
     //if you are logged in we must make sure that you have enough credits to send a survey
     const { title, body, subject, recipients } = req.body;
@@ -24,5 +24,18 @@ module.exports = app => {
     //great place to send an email
     //in order to create a instance of class we use the new keyword
     const mailer = new Mailer(survey, surveyTemplate(survey));
+
+    try {
+      await mailer.send();
+      //save our survey to the database
+      await survey.save();
+      //deduct 1 credit from user and save the user
+      req.user.credits -= 1;
+      const user = await req.user.save();
+      //send back the updated user model
+      res.send(user);
+    } catch (err) {
+      res.status(422).send(err);
+    }
   });
 };
