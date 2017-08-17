@@ -1,16 +1,16 @@
 // SurveyField contains logic to render a single label and text input
 import React from 'react';
 
-const SurveyField = ({ input, label }) => {
+export default ({ input, label, meta: { error, touched } }) => {
   //console.log(props);
+  //console.log(meta);
   return (
     <div>
       <label>
         {label}
       </label>
       <input {...input} />
+      {touched && error}
     </div>
   );
 };
-
-export default SurveyField;
