@@ -21,9 +21,20 @@ module.exports = app => {
     const events = _.map(req.body, event => {
       //use the url helper
       const pathname = new URL(event.url).pathname;
+      //p is the parse object
       const p = new Path('/api/surveys/:surveyId/:choice');
-      console.log(p.test(pathname));
+      //console.log(p.test(pathname));
+      //match will be either object or null
+      const match = p.test(pathname);
+      if (match) {
+        return {
+          email: event.email,
+          surveyId: match.surveyId,
+          choice: match.choice
+        };
+      }
     });
+    console.log(events);
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
