@@ -34,7 +34,13 @@ module.exports = app => {
         };
       }
     });
-    console.log(events);
+    //console.log(events);
+    const compactEvents = _.compact(events);
+    //removes duplication
+    const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId');
+    console.log(uniqueEvents);
+
+    res.send({});
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
