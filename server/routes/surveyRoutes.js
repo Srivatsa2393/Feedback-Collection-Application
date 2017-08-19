@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const Path = require('path-parser');
+const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -12,8 +15,15 @@ module.exports = app => {
   });
 
   app.post('/api/surveys/webhooks', (req, res) => {
-    console.log(req.body);
-    res.send({});
+    // console.log(req.body);
+    // res.send({});
+    //processing logic for array of click events
+    const events = _.map(req.body, event => {
+      //use the url helper
+      const pathname = new URL(event.url).pathname;
+      const p = new Path('/api/surveys/:surveyId/:choice');
+      console.log(p.test(pathname));
+    });
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
