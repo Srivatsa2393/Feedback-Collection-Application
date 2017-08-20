@@ -15,30 +15,56 @@ module.exports = app => {
   });
 
   app.post('/api/surveys/webhooks', (req, res) => {
+    //p is the parse object
+    // const p = new Path('/api/surveys/:surveyId/:choice');
+    // // console.log(req.body);
+    // // res.send({});
+    // //processing logic for array of click events
+    // const events = _.map(req.body, event => {
+    //   //use the url helper
+    //   //const pathname = new URL(event.url).pathname;
+    //   //console.log(p.test(pathname));
+    //   //match will be either object or null
+    //   const match = p.test(new URL(event.url).pathname);
+    //   if (match) {
+    //     return {
+    //       email: event.email,
+    //       surveyId: match.surveyId,
+    //       choice: match.choice
+    //     };
+    //   }
+    // });
+    // //console.log(events);
+    // const compactEvents = _.compact(events);
+    // //removes duplication
+    // const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId');
+    // console.log(uniqueEvents);
+
+    const p = new Path('/api/surveys/:surveyId/:choice');
     // console.log(req.body);
     // res.send({});
     //processing logic for array of click events
-    const events = _.map(req.body, event => {
-      //use the url helper
-      const pathname = new URL(event.url).pathname;
-      //p is the parse object
-      const p = new Path('/api/surveys/:surveyId/:choice');
-      //console.log(p.test(pathname));
-      //match will be either object or null
-      const match = p.test(pathname);
-      if (match) {
-        return {
-          email: event.email,
-          surveyId: match.surveyId,
-          choice: match.choice
-        };
-      }
-    });
-    //console.log(events);
-    const compactEvents = _.compact(events);
-    //removes duplication
-    const uniqueEvents = _.uniqBy(compactEvents, 'email', 'surveyId');
-    console.log(uniqueEvents);
+    const events = _.chain(req.body)
+      .map(event => {
+        //use the url helper
+        //const pathname = new URL(event.url).pathname;
+        //console.log(p.test(pathname));
+        //match will be either object or null
+        const match = p.test(new URL(event.url).pathname);
+        if (match) {
+          return {
+            email: event.email,
+            surveyId: match.surveyId,
+            choice: match.choice
+          };
+        }
+      })
+      //console.log(events);
+      .compact()
+      //removes duplication
+      .uniqBy('email', 'surveyId')
+      .value();
+    console.log(events);
 
     res.send({});
   });
