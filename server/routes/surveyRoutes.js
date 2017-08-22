@@ -44,7 +44,8 @@ module.exports = app => {
     // console.log(req.body);
     // res.send({});
     //processing logic for array of click events
-    const events = _.chain(req.body)
+    //const events = _.chain(req.body)
+    _.chain(req.body)
       .map(event => {
         //use the url helper
         //const pathname = new URL(event.url).pathname;
@@ -63,8 +64,22 @@ module.exports = app => {
       .compact()
       //removes duplication
       .uniqBy('email', 'surveyId')
+      .each(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email: email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { 'recipients.$.responded': true }
+          }
+        ).exec();
+      })
       .value();
-    console.log(events);
+    //console.log(events);
 
     res.send({});
   });
