@@ -1,0 +1,20 @@
+https://accounts.google.com/o/oauth2/v2/auth?
+
+redirect_uri=http%3A%2F%2Flocalhost%3A5000%2Fauth%2Fgoogle%2Fcallback&
+
+
+//sample survey
+Survey.findOne({
+  id: surveyId,
+  recipients:{
+   $elemMatch: { email: email, responded: false }
+  }
+})
+
+//update one of the survey
+Survey.updateOne({
+  id: surveyId,
+  recipients:{
+   $elemMatch: { email: email, responded: false }
+  }
+})
